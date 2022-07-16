@@ -3,8 +3,8 @@ const admin_router=express.Router();
 const Auth=require("../Middleware/isAuth");
 const adminContImport=require('../Controllers/adminController');
 
-admin_router.get('/',Auth,adminContImport.showHomePage);
-admin_router.get('/login',Auth,adminContImport.loginCont);
+admin_router.get('/',adminContImport.showHomePage);
+admin_router.get('/home',Auth,adminContImport.loginCont);
 
 // admin_router.get('/addProduct',adminContImport.addProductCont);
 

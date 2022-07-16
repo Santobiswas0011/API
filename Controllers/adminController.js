@@ -6,7 +6,7 @@ exports.showHomePage = (req, res) => {
 };
 
 exports.loginCont = (req, res) => {
-      res.send("login page")
+      res.send("home page")
 };
 
 // exports.addProductCont = (req, res) => {
