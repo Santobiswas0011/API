@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3241;
+const hostName='127.0.0.1';
 
 const mongoose = require("mongoose");
 const path=require('path');
@@ -17,6 +18,7 @@ const RegisterModel=require('./Model/AuthModel');
 // import router
 const admin_router = require("./Router/adminRouter");
 const auth_router = require("./Router/authRouter");
+const { fail } = require("assert");
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
@@ -54,12 +56,12 @@ const upload=multer({
    fileFilter:(req,file,cb)=>{
       if(file.mimetype === 'image/jpg' || 
       file.mimetype === 'image/jpeg' || 
-      file.mimetype === 'image/png' || 
+      file.mimetype === 'image/png' ||
       file.mimetype === 'image/webp'
       ){
          cb(null,true);
       }else{
-          cb(null,false);
+         cb(new Error("Only .jpg,.png,.jpeg,.webp format allowed"))
       }
    }
 });
@@ -96,12 +98,28 @@ app.use(admin_router);
 app.use(auth_router);
 
 
+app.use((err, req, res, next) => {
+   if (err) {
+       res.status(500).json({
+           success:false,
+           message:err.message
+       })
+   } else {
+       res.send("Success");
+   }
+});
+
+app.use((req, res) => {
+   res.end(`<h1> !!!! 404 is not found </h1>`)
+});
+
+
 // connecte database
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
      .then(() => {
           console.log("Database is connected");
-          app.listen(PORT, () => {
-               console.log(`Server is running`);
+          app.listen(PORT,hostName,() => {
+               console.log(`Server is running at http://${hostName}:${PORT}`);
           });
      })
      .catch((err) => {

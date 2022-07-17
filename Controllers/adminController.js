@@ -2,18 +2,14 @@
 const ProductModel = require('../Model/ProductModel');
 
 exports.showHomePage = (req, res) => {
-      res.send("Hi,I am Santo biswas")
-};
-
-exports.loginCont = (req, res) => {
       res.send("home page")
 };
 
-// exports.addProductCont = (req, res) => {
-//       res.render("Admin/AddProduct", {
-//             title: "Add Product"
-//       })
-// };
+exports.addProductCont = (req, res) => {
+      res.render("Admin/AddProduct", {
+            title: "Add Product"
+      })
+};
 
 exports.productDataCont = (req, res) => {
       const p_title = req.body.p_title;
